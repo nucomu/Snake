@@ -12,6 +12,7 @@
             <Label x:Name="End" Content="Label" Canvas.Left="10" Canvas.Top="265"/>
             <Label x:Name="Allpoints" Content="Gesamtpunkte: 0" Canvas.Left="10" Canvas.Top="300"/>
             <Label x:Name="Newpoints" Content="+0" Canvas.Left="150" Canvas.Top="300"/>
+            <Label x:Name="PointsPerFood" Content="0" Canvas.Left="300" Canvas.Top="300"/>
         </Canvas>
 
     </Grid>

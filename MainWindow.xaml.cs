@@ -270,11 +270,22 @@ namespace Snake
 
             myCanvas.Children.Add(Newpoints);
             myCanvas.Children.Add(Allpoints);
+            myCanvas.Children.Add(PointsPerFood);
         }
 
         void placeFood()
         {
             newpoints = 100;
+
+            if (xSnake.Length > 1)
+            {
+                PointsPerFood.Content = allpoints / (xSnake.Length - 1.0);
+            }
+            else
+            {
+                PointsPerFood.Content = 0;
+            }
+
             int numFreeSquares = width * height - xSnake.Length;
             if (numFreeSquares == 0)
             {
@@ -315,6 +326,7 @@ namespace Snake
                 yFood = k / width;
             }
         }
+
         private void summary(string reason)
         {
             string grund = "";
