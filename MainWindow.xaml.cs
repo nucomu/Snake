@@ -61,7 +61,7 @@ namespace Snake
             ySnake = new int[] { height / 2 };
 
             allpoints = 0;
-            Allpoints.Content = "Gesamtpunkte: " + allpoints;
+            Allpoints.Content = "score: " + allpoints;
 
             placeFood();
             draw();
@@ -86,8 +86,17 @@ namespace Snake
                 case Key.Down:
                     direction = 3;
                     break;
-                case Key.P:
-                    if (timer.IsEnabled) timer.Stop(); else timer.Start(); //Pause 
+                case Key.P: //Pause 
+                    if (timer.IsEnabled)
+                    {
+                        timer.Stop();
+                        End.Content = "press 'p' for resume";
+                    }
+                    else
+                    {
+                        timer.Start();
+                        End.Content = "press 'p' for pause";
+                    }
                     break;
                 case Key.R: // nur zum Test der reset-Methode
                     reset();
@@ -172,7 +181,7 @@ namespace Snake
                 xSnake = xLongerSnake;
                 ySnake = yLongerSnake;
                 allpoints += newpoints;
-                Allpoints.Content = "Gesamtpunkte: " + allpoints;
+                Allpoints.Content = "score: " + allpoints;
                 placeFood();
             }
             else
@@ -194,6 +203,7 @@ namespace Snake
                 if (xSnake[0] == xSnake[i] && ySnake[0] == ySnake[i])
                 {
                     timer.Stop();
+                    direction = -1;
                     End.Content = "self collission. Press 'r' for restart.";
                     summary("sc");
                     return;
@@ -204,6 +214,7 @@ namespace Snake
             if (xSnake[0] < 0 || xSnake[0] == width || ySnake[0] < 0 || ySnake[0] == height)
             {
                 timer.Stop();
+                direction = -1;
                 End.Content = "border collission. Press 'r' for restart.";
                 summary("bc");
                 return;
@@ -289,7 +300,7 @@ namespace Snake
             int numFreeSquares = width * height - xSnake.Length;
             if (numFreeSquares == 0)
             {
-                MessageBox.Show("Glückwunsch!");
+                MessageBox.Show("Congratulations!");
                 summary("ff");
                 reset();
             }
