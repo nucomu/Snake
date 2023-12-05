@@ -57,6 +57,7 @@ namespace Snake
 
         void reset()
         {
+            direction = -1; 
             xSnake = new int[] { width / 2 };
             ySnake = new int[] { height / 2 };
 
@@ -203,7 +204,6 @@ namespace Snake
                 if (xSnake[0] == xSnake[i] && ySnake[0] == ySnake[i])
                 {
                     timer.Stop();
-                    direction = -1;
                     End.Content = "self collission. Press 'r' for restart.";
                     summary("sc");
                     return;
@@ -214,7 +214,6 @@ namespace Snake
             if (xSnake[0] < 0 || xSnake[0] == width || ySnake[0] < 0 || ySnake[0] == height)
             {
                 timer.Stop();
-                direction = -1;
                 End.Content = "border collission. Press 'r' for restart.";
                 summary("bc");
                 return;
