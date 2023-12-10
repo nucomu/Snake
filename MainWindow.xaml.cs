@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,6 @@ using System.Xml.Serialization;
 
 namespace Snake
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         const int width = 30; //30
@@ -39,15 +37,13 @@ namespace Snake
         int direction = -1; // 0 1 2 3 = rechts rauf links runter; -1 = noch nicht gestartet
 
         double occupied; // Prozent belegte Feldfläche 
-        const string filname = "snake_hs.txt"; //HiScore-File 
-
         int allpoints = 0;
-        int newpoints = 100;
+        public int newpoints = -1;
+        public bool bonusfive = false;
 
         public MainWindow()
         {
             InitializeComponent();
-
             reset();
 
             timer.Interval = TimeSpan.FromSeconds(0.1);
@@ -144,7 +140,7 @@ namespace Snake
             {
                 return;
             }
-            
+
             Newpoints.Content = "+" + newpoints;
 
             // Wo soll der Kopf hin?
@@ -205,7 +201,6 @@ namespace Snake
                 {
                     timer.Stop();
                     End.Content = "self collission. Press 'r' for restart.";
-                    summary("sc");
                     return;
                 }
             }
@@ -215,11 +210,19 @@ namespace Snake
             {
                 timer.Stop();
                 End.Content = "border collission. Press 'r' for restart.";
-                summary("bc");
                 return;
             }
 
-            if (newpoints > 0) { newpoints -= 2; }
+            if (bonusfive)
+            {
+                if (newpoints > 1) { newpoints -= 5; }
+            }
+            else
+            {
+                if (newpoints > 1) { newpoints -= 2; }
+            }
+
+            if (newpoints == 0) { newpoints = 1; }
 
             draw();
         }
@@ -249,13 +252,7 @@ namespace Snake
                 ellipse.Width = gridSize;
                 ellipse.Height = gridSize;
                 // Kopf dunkelgrün, Körper hellgrün 
-                if (i == 0)
-                { 
-                    ellipse.Fill = Brushes.DarkGreen; 
-                } else 
-                {
-                    ellipse.Fill = Brushes.LightGreen;
-                } 
+                if (i == 0) { ellipse.Fill = Brushes.DarkGreen; } else { ellipse.Fill = Brushes.LightGreen; } 
                 myCanvas.Children.Add(ellipse);
                 Canvas.SetLeft(ellipse, (xSnake[i] + margin) * gridSize);
                 Canvas.SetTop(ellipse, (ySnake[i] + margin) * gridSize);
@@ -264,7 +261,16 @@ namespace Snake
             Ellipse ellipse2 = new ();
             ellipse2.Width = gridSize;
             ellipse2.Height = gridSize;
-            ellipse2.Fill = Brushes.Red;
+
+            if (bonusfive)
+            {
+                if (newpoints == 1) { ellipse2.Fill = Brushes.DarkOrange; } else { ellipse2.Fill = Brushes.Orange; }
+            }
+            else
+            {
+                if (newpoints == 1) { ellipse2.Fill = Brushes.DarkRed; } else { ellipse2.Fill = Brushes.Red; }
+            };
+
             myCanvas.Children.Add(ellipse2);
             Canvas.SetLeft(ellipse2, (xFood + margin) * gridSize);
             Canvas.SetTop(ellipse2, (yFood + margin) * gridSize);
@@ -285,7 +291,16 @@ namespace Snake
 
         void placeFood()
         {
-            newpoints = 100;
+            if ((xSnake.Length % 5) == 0) 
+            { 
+                bonusfive = true;
+                newpoints = 500;
+            } 
+            else 
+            { 
+                bonusfive = false;
+                newpoints = 100;
+            }
 
             if (xSnake.Length > 1)
             {
@@ -300,7 +315,6 @@ namespace Snake
             if (numFreeSquares == 0)
             {
                 MessageBox.Show("Congratulations!");
-                summary("ff");
                 reset();
             }
             else
@@ -334,78 +348,6 @@ namespace Snake
                 }
                 xFood = k % width;
                 yFood = k / width;
-            }
-        }
-
-        private void summary(string reason)
-        {
-            string grund = "";
-
-            switch (reason)
-            { 
-                case "sc":
-                    grund = "self collision";
-                    break;
-                case "bc":
-                    grund = "border collision";
-                    break;
-                case "ff":
-                    grund = "field full";
-                    break;
-            }
-            
-            HighScore score = new HighScore();
-            {
-                score.Score = xSnake.Length;
-                score.Name = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-                score.Hsdate = DateTime.Now;
-                score.Grund= grund;
-                
-            }
-
-
-
-            //string message = "Sie haben " + xSnake.Length + " mal Futter gefressen und damit " + belegt + " % Fläche belegt. Der Grund für Ihr Ende war " + grund;
-            //MessageBox.Show(message);
-        }
-
-        public class HighScore
-        {
-            public int Score
-            {
-                get;
-                set;
-            }
-
-            public string Name
-            {
-                get;
-                set;
-            }
-
-            public DateTime Hsdate
-            {
-                get;
-                set;
-            }
-            public string Grund
-            {
-                get;
-                set;
-            }
-        }
-
-        public class HighScoreCollection : List<HighScore>
-        {
-            public void SaveToXml(string fileName)
-            {
-                using (XmlWriter writer = XmlWriter.Create(fileName))
-                {
-                    XmlSerializer ser = new XmlSerializer(typeof(HighScoreCollection));
-                    ser.Serialize(writer, this);
-                    writer.Flush();
-                    writer.Close();
-                }
             }
         }
     }
