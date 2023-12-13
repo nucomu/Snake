@@ -40,6 +40,7 @@ namespace Snake
         int allpoints = 0;
         public int newpoints = -1;
         public bool bonusfive = false;
+        bool restardAllowed = true;
 
         public MainWindow()
         {
@@ -53,6 +54,11 @@ namespace Snake
 
         void reset()
         {
+            if (restardAllowed == false )
+            { 
+                restardAllowed = true;
+                return; 
+            }
             direction = -1; 
             xSnake = new int[] { width / 2 };
             ySnake = new int[] { height / 2 };
@@ -63,6 +69,7 @@ namespace Snake
             placeFood();
             draw();
             timer.Start();
+            restardAllowed = false;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -96,6 +103,11 @@ namespace Snake
                     }
                     break;
                 case Key.R: // nur zum Test der reset-Methode
+                    reset();
+                    restardAllowed = false;
+                    return;
+                case Key.Tab:
+                    restardAllowed = true;
                     reset();
                     return;
                 default:
@@ -184,7 +196,6 @@ namespace Snake
             else
             {
                 // alle eins weiterrutschen
-
                 for (int i = xSnake.Length - 1; i > 0; i--)
                 {
                     xSnake[i] = xSnake[i - 1];
@@ -201,6 +212,7 @@ namespace Snake
                 {
                     timer.Stop();
                     End.Content = "self collission. Press 'r' for restart.";
+                    restardAllowed = true;
                     return;
                 }
             }
@@ -210,6 +222,7 @@ namespace Snake
             {
                 timer.Stop();
                 End.Content = "border collission. Press 'r' for restart.";
+                restardAllowed = true;
                 return;
             }
 
