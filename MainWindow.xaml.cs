@@ -1,22 +1,9 @@
-﻿using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.DirectoryServices.ActiveDirectory;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace Snake
 {
@@ -65,6 +52,7 @@ namespace Snake
 
             allpoints = 0;
             Allpoints.Content = "score: " + allpoints;
+            PointsPerFood.Content = "points per food: 0";
 
             placeFood();
             draw();
@@ -317,11 +305,12 @@ namespace Snake
 
             if (xSnake.Length > 1)
             {
-                PointsPerFood.Content = allpoints / (xSnake.Length - 1.0);
+                PointsPerFood.Content = "points per food: " + Math.Round(allpoints / (xSnake.Length - 1.0), 2);
             }
             else
             {
-                PointsPerFood.Content = 0;
+                PointsPerFood.Content = "points per food: 0";
+                
             }
 
             int numFreeSquares = width * height - xSnake.Length;
