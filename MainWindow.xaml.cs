@@ -14,8 +14,8 @@ namespace Snake
         const int margin = 5;
         const int gridSize = 10; // Gitterabstand
 
-        Random random = new ();
-        System.Windows.Threading.DispatcherTimer timer = new ();
+        readonly Random random = new();
+        System.Windows.Threading.DispatcherTimer timer = new();
 
         int[] xSnake; // eleganter: List<Tuple<int, int>>
         int[] ySnake;
@@ -29,6 +29,8 @@ namespace Snake
         public bool bonusfive = false;
         bool restardAllowed = true;
 
+        HighscoreManager highscoreManager = new HighscoreManager();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,12 +43,12 @@ namespace Snake
 
         void reset()
         {
-            if (restardAllowed == false )
-            { 
+            if (restardAllowed == false)
+            {
                 restardAllowed = true;
-                return; 
+                return;
             }
-            direction = -1; 
+            direction = -1;
             xSnake = new int[] { width / 2 };
             ySnake = new int[] { height / 2 };
 
@@ -136,10 +138,7 @@ namespace Snake
 
         void animate(object sender, EventArgs e)
         {
-            if (direction == -1)
-            {
-                return;
-            }
+            if (direction == -1) { return; }
 
             Newpoints.Content = "+" + newpoints;
 
@@ -194,22 +193,24 @@ namespace Snake
             }
 
             //Selbstkollission 
-            for (int i = xSnake.Length - 1; i > 0; i--)                     
+            for (int i = xSnake.Length - 1; i > 0; i--)
             {
                 if (xSnake[0] == xSnake[i] && ySnake[0] == ySnake[i])
                 {
                     timer.Stop();
                     End.Content = "self collission. Press 'r' for restart.";
+                    Save_Highscore();
                     restardAllowed = true;
                     return;
                 }
             }
-            
+
             //Wandkollission 
             if (xSnake[0] < 0 || xSnake[0] == width || ySnake[0] < 0 || ySnake[0] == height)
             {
                 timer.Stop();
                 End.Content = "border collission. Press 'r' for restart.";
+                Save_Highscore();
                 restardAllowed = true;
                 return;
             }
@@ -233,33 +234,33 @@ namespace Snake
             myCanvas.Children.Clear();
 
             // Spielfeldrand 
-            Polyline myPolyline = new ()
+            Polyline myPolyline = new()
             {
                 StrokeThickness = 1,
                 Stroke = Brushes.Black,
                 Fill = Brushes.DarkGray
             };
-            Point Point1 = new (margin * gridSize, margin * gridSize);
-            Point Point2 = new (margin * gridSize, (margin + height) * gridSize);
-            Point Point3 = new ((margin + width) * gridSize, (margin + height) * gridSize);
-            Point Point4 = new ((margin + width) * gridSize, margin * gridSize);
-            PointCollection myPointCollection = new () { Point1, Point2, Point3, Point4, Point1 };
+            Point Point1 = new(margin * gridSize, margin * gridSize);
+            Point Point2 = new(margin * gridSize, (margin + height) * gridSize);
+            Point Point3 = new((margin + width) * gridSize, (margin + height) * gridSize);
+            Point Point4 = new((margin + width) * gridSize, margin * gridSize);
+            PointCollection myPointCollection = new() { Point1, Point2, Point3, Point4, Point1 };
             myPolyline.Points = myPointCollection;
             myCanvas.Children.Add(myPolyline);
 
             for (int i = 0; i < xSnake.Length; i++)
             {
-                Ellipse ellipse = new ();
+                Ellipse ellipse = new();
                 ellipse.Width = gridSize;
                 ellipse.Height = gridSize;
                 // Kopf dunkelgrün, Körper hellgrün 
-                if (i == 0) { ellipse.Fill = Brushes.DarkGreen; } else { ellipse.Fill = Brushes.LightGreen; } 
+                if (i == 0) { ellipse.Fill = Brushes.DarkGreen; } else { ellipse.Fill = Brushes.LightGreen; }
                 myCanvas.Children.Add(ellipse);
                 Canvas.SetLeft(ellipse, (xSnake[i] + margin) * gridSize);
                 Canvas.SetTop(ellipse, (ySnake[i] + margin) * gridSize);
             }
 
-            Ellipse ellipse2 = new ();
+            Ellipse ellipse2 = new();
             ellipse2.Width = gridSize;
             ellipse2.Height = gridSize;
 
@@ -288,17 +289,18 @@ namespace Snake
             myCanvas.Children.Add(Newpoints);
             myCanvas.Children.Add(Allpoints);
             myCanvas.Children.Add(PointsPerFood);
+            myCanvas.Children.Add(Highscore);
         }
 
         void placeFood()
         {
-            if ((xSnake.Length % 5) == 0) 
-            { 
+            if ((xSnake.Length % 5) == 0)
+            {
                 bonusfive = true;
                 newpoints = 500;
-            } 
-            else 
-            { 
+            }
+            else
+            {
                 bonusfive = false;
                 newpoints = 100;
             }
@@ -310,13 +312,13 @@ namespace Snake
             else
             {
                 PointsPerFood.Content = "points per food: 0";
-                
             }
 
             int numFreeSquares = width * height - xSnake.Length;
             if (numFreeSquares == 0)
             {
                 MessageBox.Show("Congratulations!");
+                Save_Highscore();
                 reset();
             }
             else
@@ -351,6 +353,16 @@ namespace Snake
                 xFood = k % width;
                 yFood = k / width;
             }
+        }
+
+        private void Highscore_Click(object sender, RoutedEventArgs e)
+        {
+            highscoreManager.DisplayHighscores();
+        }
+
+        private void Save_Highscore()
+        {
+            highscoreManager.AddHighscore(DateTime.Now.ToString(), xSnake.Length, allpoints);
         }
     }
 }

@@ -13,6 +13,7 @@
             <Label x:Name="Allpoints" Content="Gesamtpunkte: 0" Canvas.Left="10" Canvas.Top="300"/>
             <Label x:Name="Newpoints" Content="+0" Canvas.Left="150" Canvas.Top="300"/>
             <Label x:Name="PointsPerFood" Content="points per food: " Canvas.Left="250" Canvas.Top="300"/>
+            <Button x:Name="Highscore" Content="Highscore" Height="26" Canvas.Left="341" Canvas.Top="10" Width="56" Click="Highscore_Click"/>
         </Canvas>
 
     </Grid>
