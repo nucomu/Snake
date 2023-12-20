@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Snake
 {
@@ -16,7 +19,7 @@ namespace Snake
 
     class HighscoreManager
     {
-        const string HighscoreFileName = "highscores.txt";
+        const string HIGHSCORE_FILENAME = "highscores.txt";
 
         private List<HighscoreEntry> highscores = new List<HighscoreEntry>();
 
@@ -43,23 +46,51 @@ namespace Snake
 
         public void DisplayHighscores()
         {
-            if (File.Exists(HighscoreFileName))
+            //Dialog-Show Version:
+
+            Highscores highscoresScreen = new Highscores();
+
+            for (int i = 0; i < 5 && i < highscores.Count; i++)
             {
-                try
-                {
-                    ProcessStartInfo psi = new ProcessStartInfo
-                    {
-                        FileName = HighscoreFileName,
-                        UseShellExecute = true
-                    };
-                    Process.Start(psi);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    return;
-                }
+                string dtName = $"dt{i + 1}";
+                string lengthName = $"length{i + 1}";
+                string scoreName = $"score{i + 1}";
+
+                // Finde die Labels mit den dynamischen Namen
+                var dtLabel = highscoresScreen.FindName(dtName) as Label;
+                var lengthLabel = highscoresScreen.FindName(lengthName) as Label;
+                var scoreLabel = highscoresScreen.FindName(scoreName) as Label;
+
+                // Setze die Inhalte der gefundenen Labels
+                if (dtLabel != null) dtLabel.Content = highscores[i].dt;
+                if (lengthLabel != null) lengthLabel.Content = highscores[i].länge;
+                if (scoreLabel != null) scoreLabel.Content = highscores[i].score;
             }
+            
+            highscoresScreen.Show();
+
+            //File-Show Version:
+
+            //if (File.Exists(HIGHSCORE_FILENAME))
+            //{
+            //    try
+            //    {
+            //        ProcessStartInfo psi = new ProcessStartInfo
+            //        {
+            //            FileName = HIGHSCORE_FILENAME,
+            //            UseShellExecute = true
+            //        };
+            //        Process.Start(psi);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message);
+            //        return;
+            //    }
+            //}
+
+
+            // Console Version:
 
             //Console.WriteLine("Highscores:");
             //foreach (var entry in highscores)
@@ -72,9 +103,9 @@ namespace Snake
         private void LoadHighscores()
         {
             // Lese die Highscores aus der Datei, falls vorhanden
-            if (File.Exists(HighscoreFileName))
+            if (File.Exists(HIGHSCORE_FILENAME))
             {
-                string[] lines = File.ReadAllLines(HighscoreFileName);
+                string[] lines = File.ReadAllLines(HIGHSCORE_FILENAME);
                 highscores = lines.Select(line =>
                 {
                     var parts = line.Split(',');
@@ -91,7 +122,7 @@ namespace Snake
         private void SaveHighscores()
         {
             // Speichere die Highscores in der Datei
-            using (StreamWriter writer = new StreamWriter(HighscoreFileName))
+            using (StreamWriter writer = new StreamWriter(HIGHSCORE_FILENAME))
             {
                 foreach (var entry in highscores)
                 {

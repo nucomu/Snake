@@ -7,7 +7,11 @@
         mc:Ignorable="d"
         Title="HaLuz Snake" Height="371" Width="425" KeyDown="Window_KeyDown" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Canvas x:Name="myCanvas">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="418*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <Canvas x:Name="myCanvas" Grid.ColumnSpan="2">
             <Label x:Name="Statistics" Content="Label" Canvas.Left="10" Canvas.Top="10"/>
             <Label x:Name="End" Content="Label" Canvas.Left="10" Canvas.Top="265"/>
             <Label x:Name="Allpoints" Content="Gesamtpunkte: 0" Canvas.Left="10" Canvas.Top="300"/>

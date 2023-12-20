@@ -9,10 +9,10 @@ namespace Snake
 {
     public partial class MainWindow : Window
     {
-        const int width = 30; //30
-        const int height = 20; //20
-        const int margin = 5;
-        const int gridSize = 10; // Gitterabstand
+        const int WIDTH = 30; //30
+        const int HEIGHT = 20; //20
+        const int MARGIN = 5;
+        const int GRID_SIZE = 10; // Gitterabstand
 
         readonly Random random = new();
         System.Windows.Threading.DispatcherTimer timer = new();
@@ -49,8 +49,8 @@ namespace Snake
                 return;
             }
             direction = -1;
-            xSnake = new int[] { width / 2 };
-            ySnake = new int[] { height / 2 };
+            xSnake = new int[] { WIDTH / 2 };
+            ySnake = new int[] { HEIGHT / 2 };
 
             allpoints = 0;
             Allpoints.Content = "score: " + allpoints;
@@ -206,7 +206,7 @@ namespace Snake
             }
 
             //Wandkollission 
-            if (xSnake[0] < 0 || xSnake[0] == width || ySnake[0] < 0 || ySnake[0] == height)
+            if (xSnake[0] < 0 || xSnake[0] == WIDTH || ySnake[0] < 0 || ySnake[0] == HEIGHT)
             {
                 timer.Stop();
                 End.Content = "border collission. Press 'r' for restart.";
@@ -240,10 +240,10 @@ namespace Snake
                 Stroke = Brushes.Black,
                 Fill = Brushes.DarkGray
             };
-            Point Point1 = new(margin * gridSize, margin * gridSize);
-            Point Point2 = new(margin * gridSize, (margin + height) * gridSize);
-            Point Point3 = new((margin + width) * gridSize, (margin + height) * gridSize);
-            Point Point4 = new((margin + width) * gridSize, margin * gridSize);
+            Point Point1 = new(MARGIN * GRID_SIZE, MARGIN * GRID_SIZE);
+            Point Point2 = new(MARGIN * GRID_SIZE, (MARGIN + HEIGHT) * GRID_SIZE);
+            Point Point3 = new((MARGIN + WIDTH) * GRID_SIZE, (MARGIN + HEIGHT) * GRID_SIZE);
+            Point Point4 = new((MARGIN + WIDTH) * GRID_SIZE, MARGIN * GRID_SIZE);
             PointCollection myPointCollection = new() { Point1, Point2, Point3, Point4, Point1 };
             myPolyline.Points = myPointCollection;
             myCanvas.Children.Add(myPolyline);
@@ -251,18 +251,18 @@ namespace Snake
             for (int i = 0; i < xSnake.Length; i++)
             {
                 Ellipse ellipse = new();
-                ellipse.Width = gridSize;
-                ellipse.Height = gridSize;
+                ellipse.Width = GRID_SIZE;
+                ellipse.Height = GRID_SIZE;
                 // Kopf dunkelgrün, Körper hellgrün 
                 if (i == 0) { ellipse.Fill = Brushes.DarkGreen; } else { ellipse.Fill = Brushes.LightGreen; }
                 myCanvas.Children.Add(ellipse);
-                Canvas.SetLeft(ellipse, (xSnake[i] + margin) * gridSize);
-                Canvas.SetTop(ellipse, (ySnake[i] + margin) * gridSize);
+                Canvas.SetLeft(ellipse, (xSnake[i] + MARGIN) * GRID_SIZE);
+                Canvas.SetTop(ellipse, (ySnake[i] + MARGIN) * GRID_SIZE);
             }
 
             Ellipse ellipse2 = new();
-            ellipse2.Width = gridSize;
-            ellipse2.Height = gridSize;
+            ellipse2.Width = GRID_SIZE;
+            ellipse2.Height = GRID_SIZE;
 
             if (bonusfive)
             {
@@ -274,11 +274,11 @@ namespace Snake
             };
 
             myCanvas.Children.Add(ellipse2);
-            Canvas.SetLeft(ellipse2, (xFood + margin) * gridSize);
-            Canvas.SetTop(ellipse2, (yFood + margin) * gridSize);
+            Canvas.SetLeft(ellipse2, (xFood + MARGIN) * GRID_SIZE);
+            Canvas.SetTop(ellipse2, (yFood + MARGIN) * GRID_SIZE);
 
             //Spielestatistik 
-            occupied = Math.Round(Convert.ToDouble(xSnake.Length) / (width * height) * 100, 2);
+            occupied = Math.Round(Convert.ToDouble(xSnake.Length) / (WIDTH * HEIGHT) * 100, 2);
             Statistics.Content = "Snake length: " + xSnake.Length + " / occupied fields: " + occupied + " %";
             myCanvas.Children.Add(Statistics);
 
@@ -314,7 +314,7 @@ namespace Snake
                 PointsPerFood.Content = "points per food: 0";
             }
 
-            int numFreeSquares = width * height - xSnake.Length;
+            int numFreeSquares = WIDTH * HEIGHT - xSnake.Length;
             if (numFreeSquares == 0)
             {
                 MessageBox.Show("Congratulations!");
@@ -324,12 +324,12 @@ namespace Snake
             else
             {
                 // Welche Felder sind schon von der Schlange belegt?
-                bool[] squareOccupied = new bool[width * height];
+                bool[] squareOccupied = new bool[WIDTH * HEIGHT];
                 for (int i = 0; i < xSnake.Length; i++)
                 {
-                    if (xSnake[i] >= 0 && xSnake[i] < width && ySnake[i] >= 0 && ySnake[i] < height)
+                    if (xSnake[i] >= 0 && xSnake[i] < WIDTH && ySnake[i] >= 0 && ySnake[i] < HEIGHT)
                     {
-                        squareOccupied[width * ySnake[i] + xSnake[i]] = true;
+                        squareOccupied[WIDTH * ySnake[i] + xSnake[i]] = true;
                     }
                 }
 
@@ -350,8 +350,8 @@ namespace Snake
                         k++;
                     }
                 }
-                xFood = k % width;
-                yFood = k / width;
+                xFood = k % WIDTH;
+                yFood = k / WIDTH;
             }
         }
 
