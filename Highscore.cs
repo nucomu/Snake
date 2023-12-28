@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace Snake
@@ -29,7 +24,7 @@ namespace Snake
             LoadHighscores();
         }
 
-        public void AddHighscore(string dt, int länge, int score) 
+        public void AddHighscore(string dt, int länge, int score)
         {
             // Füge neuen Highscore-Eintrag hinzu
             highscores.Add(new HighscoreEntry { dt = dt, länge = länge, score = score });
@@ -66,7 +61,7 @@ namespace Snake
                 if (lengthLabel != null) lengthLabel.Content = highscores[i].länge;
                 if (scoreLabel != null) scoreLabel.Content = highscores[i].score;
             }
-            
+
             highscoresScreen.Show();
 
             //File-Show Version:

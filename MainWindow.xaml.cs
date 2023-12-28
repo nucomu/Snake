@@ -266,11 +266,25 @@ namespace Snake
 
             if (bonusfive)
             {
-                if (newpoints == 1) { ellipse2.Fill = Brushes.DarkOrange; } else { ellipse2.Fill = Brushes.Orange; }
+                double factor = (double)newpoints / 500.0;
+                double sqrtFactor = Math.Sqrt(factor);
+
+                byte red = (byte)(255 * sqrtFactor);
+                byte green = (byte)(165 * sqrtFactor);
+                byte blue = 0;
+
+                ellipse2.Fill = new SolidColorBrush(Color.FromRgb(red, green, blue));
             }
             else
             {
-                if (newpoints == 1) { ellipse2.Fill = Brushes.DarkRed; } else { ellipse2.Fill = Brushes.Red; }
+                double factor = (double)newpoints / 100.0;
+                double sqrtFactor = Math.Sqrt(factor);
+
+                byte red = (byte)(255 * sqrtFactor);
+                byte green = 0;
+                byte blue = 0;
+
+                ellipse2.Fill = new SolidColorBrush(Color.FromRgb(red, green, blue));
             };
 
             myCanvas.Children.Add(ellipse2);

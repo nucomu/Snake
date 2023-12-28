@@ -14,11 +14,11 @@
         <Label Content="Länge" HorizontalAlignment="Left" Margin="200,35,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label Content="Punkte" HorizontalAlignment="Left" Margin="250,35,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
 
-        <Label Content="1." HorizontalAlignment="Left" Margin="20,55,0,0" VerticalAlignment="Top"/>
-        <Label Content="2." HorizontalAlignment="Left" Margin="20,75,0,0" VerticalAlignment="Top"/>
-        <Label Content="3." HorizontalAlignment="Left" Margin="20,95,0,0" VerticalAlignment="Top"/>
-        <Label Content="4." HorizontalAlignment="Left" Margin="20,115,0,0" VerticalAlignment="Top"/>
-        <Label Content="5." HorizontalAlignment="Left" Margin="20,135,0,0" VerticalAlignment="Top"/>
+        <Label Content="1." HorizontalAlignment="Left" Margin="20,55,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="2." HorizontalAlignment="Left" Margin="20,75,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="3." HorizontalAlignment="Left" Margin="20,95,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="4." HorizontalAlignment="Left" Margin="20,115,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="5." HorizontalAlignment="Left" Margin="20,135,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
 
         <Label x:Name="dt1" Content="-" HorizontalAlignment="Left" Margin="60,55,0,0" VerticalAlignment="Top"/>
         <Label x:Name="dt2" Content="-" HorizontalAlignment="Left" Margin="60,75,0,0" VerticalAlignment="Top"/>
