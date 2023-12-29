@@ -387,8 +387,8 @@ namespace Snake
         }
         private void MainWindow_LocationChanged(object sender, EventArgs e)
         {
-            windowLeft = this.Left + 25;
-            windowTop = this.Top + 25;
+            windowLeft = this.Left;
+            windowTop = this.Top;
         }
     }
 }

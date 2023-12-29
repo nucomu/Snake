@@ -62,8 +62,8 @@ namespace Snake
                 if (scoreLabel != null) scoreLabel.Content = highscores[i].score;
             }
 
-            highscoresScreen.Left = windowLeft;
-            highscoresScreen.Top = windowTop;
+            highscoresScreen.Left = windowLeft + 25;
+            highscoresScreen.Top = windowTop + 25;
             highscoresScreen.Show();
 
             //File-Show Version:
