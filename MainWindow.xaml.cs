@@ -28,13 +28,20 @@ namespace Snake
         public int newpoints = -1;
         public bool bonusfive = false;
         bool restardAllowed = true;
-
+        
+        public double windowLeft;
+        public double windowTop;
+        
         HighscoreManager highscoreManager = new HighscoreManager();
 
         public MainWindow()
         {
             InitializeComponent();
             reset();
+
+            windowLeft = this.Left;
+            windowTop = this.Top;
+            this.LocationChanged += MainWindow_LocationChanged;
 
             timer.Interval = TimeSpan.FromSeconds(0.1);
             timer.Tick += animate;
@@ -371,12 +378,17 @@ namespace Snake
 
         private void Highscore_Click(object sender, RoutedEventArgs e)
         {
-            highscoreManager.DisplayHighscores();
+            highscoreManager.DisplayHighscores(windowLeft, windowTop);
         }
 
         private void Save_Highscore()
         {
             highscoreManager.AddHighscore(DateTime.Now.ToString(), xSnake.Length, allpoints);
+        }
+        private void MainWindow_LocationChanged(object sender, EventArgs e)
+        {
+            windowLeft = this.Left + 25;
+            windowTop = this.Top + 25;
         }
     }
 }

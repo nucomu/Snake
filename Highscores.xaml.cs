@@ -10,12 +10,6 @@ namespace Snake
         public Highscores()
         {
             InitializeComponent();
-
-
-
-
-
-
         }
     }
 }

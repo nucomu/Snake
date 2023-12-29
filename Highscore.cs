@@ -39,7 +39,7 @@ namespace Snake
             SaveHighscores();
         }
 
-        public void DisplayHighscores()
+        public void DisplayHighscores(double windowLeft, double windowTop)
         {
             //Dialog-Show Version:
 
@@ -62,6 +62,8 @@ namespace Snake
                 if (scoreLabel != null) scoreLabel.Content = highscores[i].score;
             }
 
+            highscoresScreen.Left = windowLeft;
+            highscoresScreen.Top = windowTop;
             highscoresScreen.Show();
 
             //File-Show Version:
