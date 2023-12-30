@@ -28,7 +28,7 @@ namespace Snake
         public int newpoints = -1;
         public bool bonusfive = false;
         bool restardAllowed = true;
-        
+
         public double windowLeft;
         public double windowTop;
         

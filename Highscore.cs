@@ -14,7 +14,7 @@ namespace Snake
 
     class HighscoreManager
     {
-        const string HIGHSCORE_FILENAME = "highscores.txt";
+        public const string HIGHSCORE_FILENAME = "highscores.txt";
 
         private List<HighscoreEntry> highscores = new List<HighscoreEntry>();
 
@@ -65,36 +65,6 @@ namespace Snake
             highscoresScreen.Left = windowLeft + 25;
             highscoresScreen.Top = windowTop + 25;
             highscoresScreen.Show();
-
-            //File-Show Version:
-
-            //if (File.Exists(HIGHSCORE_FILENAME))
-            //{
-            //    try
-            //    {
-            //        ProcessStartInfo psi = new ProcessStartInfo
-            //        {
-            //            FileName = HIGHSCORE_FILENAME,
-            //            UseShellExecute = true
-            //        };
-            //        Process.Start(psi);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message);
-            //        return;
-            //    }
-            //}
-
-
-            // Console Version:
-
-            //Console.WriteLine("Highscores:");
-            //foreach (var entry in highscores)
-            //{
-            //    Console.WriteLine($"{entry.dt}: {entry.länge} - {entry.score} - {entry.ppf}");
-            //    Console.ReadLine();
-            //}
         }
 
         private void LoadHighscores()
@@ -128,18 +98,4 @@ namespace Snake
             }
         }
     }
-
-    //class Program
-    //{
-    //    static void Main()
-    //    {
-    //        HighscoreManager highscoreManager = new HighscoreManager();
-
-    //        // Beispiel: Füge einen neuen Highscore hinzu
-    //        highscoreManager.AddHighscore("Spieler1", 1000);
-
-    //        // Zeige die Highscores an
-    //        highscoreManager.DisplayHighscores();
-    //    }
-    //}
 }

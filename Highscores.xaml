@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Highscores" Height="210" Width="400">
     <Grid x:Name ="HighscoreCanvas" Margin="0,0,10,10">
-        <Label Content="Highscores" HorizontalAlignment="Left" Height="40" Width="100" Margin="20,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" />
+        <Label x:Name="Headline" Content="Highscores" HorizontalAlignment="Left" Height="40" Width="100" Margin="20,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" />
 
         <Label Content="Platz" HorizontalAlignment="Left" Margin="20,35,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label Content="Datum / Uhrzeit" HorizontalAlignment="Left" Margin="60,35,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
